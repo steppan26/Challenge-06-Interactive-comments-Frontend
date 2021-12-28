@@ -3,18 +3,25 @@ import Comment from "../components/comment";
 
 const CommentsList = ({data}) => {
   const { currentUser, comments } = data
-  const commentAction = (action, commentId) => {
+  const commentElRef = React.useRef();
+  const replyElRef = React.useRef();
+
+  const commentAction = (event, action) => {
+    const commentElement = event.currentTarget.parentNode.parentNode.parentNode
+
     switch (action) {
       case 'reply':
-        console.log('replying', commentId)
+        console.log('replying' )
         break;
 
       case 'update':
-        console.log('updating', commentId)
+        console.log('updating' )
         break;
 
       case 'delete':
-        console.log('deleting', commentId)
+        console.log('deleting')
+        window.alert('Comment has been deleted')
+        commentElement.remove()
         break;
 
       default:
@@ -27,11 +34,12 @@ const CommentsList = ({data}) => {
       {
         comments.map(comment => {
           return(
-            <li key={comment.id}>
+            <li key={comment.id} ref={commentElRef}>
               <Comment
+
                 currentUser={currentUser}
                 comment={comment}
-                commentAction={(action) => commentAction(action, comment.id)}
+                commentAction={(event, action) => commentAction(event, action)}
               />
               { /* if a comment has replies then render those replies as
               comments in another list inside the same <li>*/ }
@@ -39,11 +47,11 @@ const CommentsList = ({data}) => {
                 <ul className='replies'>
                 { comment.replies.map(reply => {
                   return (
-                    <li key={reply.id}>
+                    <li key={reply.id} ref={replyElRef}>
                       <Comment
                         currentUser={currentUser}
                         comment={reply}
-                        commentAction={(action) => commentAction(action, reply.id)}
+                        commentAction={(event, action) => commentAction(event, action )}
                       />
                     </li>
                   )

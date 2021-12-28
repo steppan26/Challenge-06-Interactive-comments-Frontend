@@ -20,11 +20,11 @@ const Comment = ({ currentUser, comment, commentAction }) => {
   // renders the 'delete' and 'edit' buttons if post belongs to current user
   const postUserActions = (user.username === currentUser.username ?
     <>
-      <div className='btn delete' onClick={() => commentAction('delete')}><i className="fas fa-trash"></i> Delete</div>
-      <div className='btn edit' onClick={() => commentAction('update')}><i className="fas fa-pen"></i> Edit</div>
+      <div className='btn delete' onClick={ event => commentAction(event, 'delete') }><i className="fas fa-trash"></i> Delete</div>
+      <div className='btn edit' onClick={ event => commentAction(event, 'update') }><i className="fas fa-pen"></i> Edit</div>
     </>
     :
-    <div className='btn reply' onClick={() => commentAction('reply')}><i className="fas fa-reply"></i> Reply</div>
+    <div className='btn reply' onClick={ event => commentAction(event, 'reply') }><i className="fas fa-reply"></i> Reply</div>
   )
   return(
     <>

@@ -8,6 +8,14 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   box-shadow: 0 0 20px rgba(10, 10, 10, 0.1);
   padding: 1.1rem;
   & p { color: var(--clr-Grayish-blue); }
+  & .user-identifier {
+    background-color: var(--clr-Moderate-blue);
+    color: var(--clr-Very-light-gray);
+    font-weight: 400;
+    font-size: 0.7rem;
+    padding: 0.07rem 0.3rem;
+    margin: 0.4rem;
+  }
 }
 
 .comment-header {
@@ -21,7 +29,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   }
 }
 
-.comment-username { margin: 0 1.5rem; font-weight: 700; }
+.comment-username { margin: 0 1rem; font-weight: 700; }
 .user-replying-to { color: var(--clr-Moderate-blue); font-weight: 700; }
 
 .votes-wrapper {

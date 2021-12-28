@@ -1,7 +1,9 @@
 import React from "react";
 import VotesCounter from './votesCounter'
 
-const Comment = ({ currentUser, commentAction, content = '', score = 0, user = {}, createdAt = '', replyingTo }) => {
+const Comment = ({ currentUser, comment, commentAction }) => {
+  const { content, score, user, createdAt, replyingTo } = comment
+
   const [commentScore, updateCommentScore] = React.useState(score)
   const userReplyingTo = replyingTo ? `@${replyingTo}` : null
   const updateCounter = (event) => {

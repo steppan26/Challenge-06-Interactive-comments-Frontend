@@ -1,4 +1,5 @@
 import React from "react";
+import VotesCounter from './votesCounter'
 
 const Comment = ({ content = '', score = 0, user = {}, createdAt = '', replyingTo }) => {
   const userReplyingTo = replyingTo ? `@${replyingTo}` : null
@@ -11,7 +12,7 @@ const Comment = ({ content = '', score = 0, user = {}, createdAt = '', replyingT
           <h5 className='date-created'>{createdAt}</h5>
         </div>
         <p><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
-        <h4>{score}</h4>
+        <VotesCounter votes={score} />
       </div>
     </>
   )

@@ -1,6 +1,6 @@
 import './stylesheets/App.scss';
 import Data from './data.json';
-import CommentsList from './javascript/containers/comments_list';
+import CommentsList from './javascript/containers/commentsList';
 
 function App() {
   return (

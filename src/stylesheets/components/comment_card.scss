@@ -14,20 +14,28 @@ body {
   border-radius: 0.4rem;
   box-shadow: 0 0 20px rgba(10, 10, 10, 0.1);
   padding: 1rem;
+  & p {
+    opacity: 0.6;
+  }
 }
 
 .comment-header {
   display: flex;
   align-items: center;
   & img {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
   }
   & .date-created {
     opacity: 0.4;
     font-weight: 400;
     margin: 0;
   }
+}
+
+.user-replying-to {
+  color: #2508f2;
+  font-weight: 700;
 }
 
 .comment-username {

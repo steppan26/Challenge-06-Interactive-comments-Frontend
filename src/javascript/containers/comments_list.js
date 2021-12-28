@@ -14,8 +14,8 @@ const CommentsList = ({data}) => {
                   user={comment.user}
                   createdAt={comment.createdAt}
               />
-              {/* if a comment has replies then render those replies as
-              comments in another list inside the same <li>*/}
+              { /* if a comment has replies then render those replies as
+              comments in another list inside the same <li>*/ }
               {comment.replies.length > 0 ?
                 comment.replies.map(reply => {
                   return (
@@ -25,6 +25,7 @@ const CommentsList = ({data}) => {
                           score={reply.score}
                           user={reply.user}
                           createdAt={reply.createdAt}
+                          replyingTo={reply.replyingTo}
                       />
                     </ul>
                   )

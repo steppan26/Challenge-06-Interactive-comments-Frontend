@@ -2,7 +2,7 @@ import React from "react";
 
 const Comment = ({ content = '', score = 0, user = {}, createdAt = '' }) => {
   return(
-    <div>
+    <>
       <div className='comment-list-item'>
         <div className="comment-header">
           <img src={user.image.png} alt="user profile" />
@@ -12,7 +12,7 @@ const Comment = ({ content = '', score = 0, user = {}, createdAt = '' }) => {
         <p>{content}</p>
         <h4>{score}</h4>
       </div>
-    </div>
+    </>
   )
 }
 

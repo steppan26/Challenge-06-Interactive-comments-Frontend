@@ -1,6 +1,6 @@
 import React from "react";
 
-const Comment = ({ content = '', score = 0, user = {}, createdAt = '', replies = [] }) => {
+const Comment = ({ content = '', score = 0, user = {}, createdAt = '' }) => {
   return(
     <div>
       <div className='comment-list-item'>

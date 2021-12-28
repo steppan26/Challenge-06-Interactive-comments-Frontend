@@ -13,10 +13,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
 .comment-header {
   display: flex;
   align-items: center;
-  & img {
-    width: 30px;
-    height: 30px;
-  }
+  & img { width: 30px; height: 30px; }
   & .date-created {
     opacity: 0.4;
     font-weight: 400;
@@ -28,25 +25,27 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
 .user-replying-to { color: var(--clr-Moderate-blue); font-weight: 700; }
 
 .votes-wrapper {
-  display: inline-flex;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   border-radius: 0.6rem;
+  width: 73px;
+  padding: 0.6rem;
   color: var(--clr-Moderate-blue);
   background-color: var(--clr-Very-light-gray);
   & h4 {
+    flex: 1 1 50%;
     font-weight: 500;
     margin: 0;
   }
   & div {
+    flex: 0 0 33%;
     color: var(--clr-Light-grayish-blue);
     font-weight: 700;
     transition: 210ms color ease-out;
     &:hover { color: var(--clr-Moderate-blue); }
   }
-  & * {
-    cursor: pointer;
-    padding: 0.6rem;
-  }
+  & * { cursor: pointer; text-align: center; }
 }
 
 .replies { padding-left: 1rem; border-left: 2px solid rgba(110, 110, 110, 0.1); }

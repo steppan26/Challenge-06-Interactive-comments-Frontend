@@ -33,7 +33,7 @@ const Comment = ({ currentUser, comment }) => {
 
     switch (action) {
       case 'reply':
-        event.currentTarget.parentNode.parentNode.nextSibling.classList.toggle('hidden');
+        event.currentTarget.parentNode.parentNode.parentNode.parentNode.querySelector('.comment-reply-wrapper').classList.toggle('hidden');
         break;
 
       case 'update':
@@ -57,6 +57,10 @@ const Comment = ({ currentUser, comment }) => {
     }
   }
 
+  const submitComment = (textareaElement) => {
+    console.log('comment submitted', textareaElement.value)
+  }
+
   const userReplyingTo = replyingTo ? `@${replyingTo}` : null
   // renders the 'you' identifier if post belongs to current user
   const userIdentifier = (user.username === currentUser.username ? <span className='user-identifier'>you</span> : null)
@@ -78,20 +82,27 @@ const Comment = ({ currentUser, comment }) => {
           <h5 className='date-created'>{createdAt}</h5>
         </div>
         { updating ?
-          // <textarea ref={textareaRef} placeholder="Add a comment..." className="comment-reply-input update-comment">{content}</textarea>
-          <NewComment currentUser={currentUser} text='UPDATE' content={content} customClass="update-comment" />
+          <NewComment currentUser={currentUser}
+                      text='UPDATE'
+                      content={content}
+                      customClass="update-comment"
+                      submitComment={textareaElement => submitComment(textareaElement)}
+          />
           :
           <p className="comment-content"><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
         }
         <div className="comment-footer">
-          <VotesCounter
-            votes={commentScore}
-            updateCounter={event => updateCounter(event)}
+          <VotesCounter votes={commentScore}
+                        updateCounter={event => updateCounter(event)}
           />
           <div className="comment-actions">{postUserActions}</div>
         </div>
       </div>
-      <NewComment currentUser={currentUser} text='REPLY' customClass="hidden" />
+      <NewComment currentUser={currentUser}
+                  text='REPLY'
+                  customClass="hidden"
+                  submitComment={(textareaElement) => submitComment(textareaElement)}
+      />
     </>
   )
 }

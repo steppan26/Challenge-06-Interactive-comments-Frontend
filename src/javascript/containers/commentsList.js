@@ -3,9 +3,24 @@ import Comment from "../components/comment";
 import NewComment from "../components/newComment";
 
 const CommentsList = ({data}) => {
-  const { currentUser, comments } = data
+  const { currentUser } = data
+  const [ comments, updateComments] = React.useState(data.comments)
   const commentElRef = React.useRef();
   const replyElRef = React.useRef();
+
+  const submitComment = (textareaElement) => {
+    console.log('new comment', textareaElement.value)
+    const newComment = {
+      // "id": 1,
+      "content": textareaElement.value,
+      "createdAt": '1 minute ago',
+      "score": 0,
+      "user": currentUser,
+      "replies": []
+    }
+    updateComments([...comments, newComment])
+    textareaElement.value = ''
+  }
 
   return(
     <>
@@ -38,7 +53,9 @@ const CommentsList = ({data}) => {
           )
         })}
       </ul>
-      <NewComment currentUser={currentUser}/>
+      <NewComment currentUser={currentUser}
+        submitComment={(textareaElement) => submitComment(textareaElement)}
+      />
     </>
   )
 }

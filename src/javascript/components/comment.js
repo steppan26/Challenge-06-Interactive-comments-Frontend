@@ -6,7 +6,7 @@ const autoheight = (element) => {
   element.style.height = (element.scrollHeight - 26) + "px";
 }
 
-const Comment = ({ currentUser, comment, submitComment }) => {
+const Comment = ({ currentUser, comment, submitComment, updateScore }) => {
   const [updating, setUpdating] = React.useState(false)
 
   const { content, score, user, createdAt, replyingTo } = comment
@@ -14,12 +14,22 @@ const Comment = ({ currentUser, comment, submitComment }) => {
   const [commentScore, updateCommentScore] = React.useState(score)
 
   const updateCounter = (event) => {
+    let newScore = score
     if(event.currentTarget.innerText === '+'){
-      updateCommentScore(commentScore + 1)
+      newScore = commentScore === (score - 1) ? score : score + 1
+      updateCommentScore(newScore)
     } else {
       if (commentScore > 0){
-        updateCommentScore(commentScore - 1)
+        newScore = commentScore === (score + 1) ? score : score - 1
+        updateCommentScore(newScore)
       }
+    }
+    if (newScore !== score) {
+      if (!comment.voted.includes(currentUser.username)) {
+        updateScore(newScore, comment)
+      }
+    } else {
+      updateScore(null, comment)
     }
   }
 

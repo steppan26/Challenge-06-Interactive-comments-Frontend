@@ -21,6 +21,7 @@ const CommentsList = ({data}) => {
       "content": textareaElement.value,
       "createdAt": '1 minute ago',
       "score": 0,
+      "voted": [],
       "user": currentUser,
       "replies": []
     }
@@ -36,6 +37,7 @@ const CommentsList = ({data}) => {
         "content": textareaElement.value,
         "createdAt": '1 minute ago',
         "score": 0,
+        "voted": [],
         "replyingTo": username,
         "user": currentUser
       }
@@ -63,6 +65,39 @@ const CommentsList = ({data}) => {
     }
   }
 
+  const updateScore = (score = null, commentEl = null, commentId = 0) => {
+    if (score) {
+        const newComments = comments.map(comment => {
+          if (comment.id === commentId) {
+            comment.voted.push(currentUser.username)
+          } else {
+            comment.replies.forEach(reply => {
+              if (reply.id === commentId) {
+                comment.voted.push(currentUser.username)
+              }
+            })
+          }
+          return comment
+        })
+        updateComments(newComments)
+    } else {
+      const newComments = comments.map(comment => {
+        if (comment.id === commentId) {
+          comment.voted.splice(comment.voted.indexOf(currentUser.username), 1);
+        } else {
+          comment.replies.forEach(reply => {
+            if (reply.id === commentId) {
+              comment.voted.splice(comment.voted.indexOf(currentUser.username), 1);
+            }
+          })
+        }
+        return comment
+      })
+      updateComments(newComments)
+    }
+    console.log(comments)
+  }
+
   const destroyComment = (commentId) => {
     console.log(commentId)
   }
@@ -85,7 +120,9 @@ const CommentsList = ({data}) => {
                       textareaElement,
                       isReply
                     }
-                  )}                destroyComment={() => destroyComment(comment.id)}
+                  )}
+                  updateScore={(score, comment) => updateScore(score, comment, comment.id)}
+                destroyComment={() => destroyComment(comment.id)}
               />
               { /* if a comment has replies then render those replies as
               comments in another list inside the same <li>*/ }
@@ -107,6 +144,7 @@ const CommentsList = ({data}) => {
                               isReply
                             }
                           )}
+                          updateScore={(score, comment) => updateScore(score, comment, reply.id)}
                         destroyComment={() => destroyComment(reply.id)}
                       />
                     </li>

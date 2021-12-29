@@ -2,7 +2,8 @@ import React from "react";
 import NewComment from "./newComment";
 import VotesCounter from './votesCounter'
 
-const Comment = ({ currentUser, comment, commentAction }) => {
+const Comment = ({ currentUser, comment }) => {
+  let updating = false
   const { content, score, user, createdAt, replyingTo } = comment
 
   const [commentScore, updateCommentScore] = React.useState(score)
@@ -16,6 +17,31 @@ const Comment = ({ currentUser, comment, commentAction }) => {
       }
     }
   }
+
+  const commentAction = (event, action) => {
+    const commentElement = event.currentTarget.parentNode.parentNode.parentNode
+
+    switch (action) {
+      case 'reply':
+        event.currentTarget.parentNode.parentNode.nextSibling.classList.toggle('hidden');
+        break;
+
+      case 'update':
+        const newEl = commentElement.querySelector('.comment-content')
+        console.log('updating', newEl)
+        break;
+
+      case 'delete':
+        console.log('deleting')
+        window.alert('Comment has been deleted')
+        commentElement.remove()
+        break;
+
+      default:
+        break;
+    }
+  }
+
   const userReplyingTo = replyingTo ? `@${replyingTo}` : null
   // renders the 'you' identifier if post belongs to current user
   const userIdentifier = (user.username === currentUser.username ? <span className='user-identifier'>you</span> : null)
@@ -36,7 +62,11 @@ const Comment = ({ currentUser, comment, commentAction }) => {
           <h4 className='comment-username'>{user.username} {userIdentifier}</h4>
           <h5 className='date-created'>{createdAt}</h5>
         </div>
-        <p><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
+        { updating ?
+          <div>Updating</div>
+        :
+          <p className="comment-content"><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
+        }
         <VotesCounter
           votes={commentScore}
           updateCounter={event => updateCounter(event)}

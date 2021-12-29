@@ -6,10 +6,10 @@ const autoheight = (element) => {
   element.style.height = (element.scrollHeight - 26) + "px";
 }
 
-const Comment = ({ currentUser, comment }) => {
+const Comment = ({ currentUser, comment, submitComment }) => {
   const [updating, setUpdating] = React.useState(false)
 
-  const { content, score, user, createdAt, replyingTo } = comment
+  const { id, content, score, user, createdAt, replyingTo } = comment
 
   const [commentScore, updateCommentScore] = React.useState(score)
 
@@ -28,20 +28,26 @@ const Comment = ({ currentUser, comment }) => {
     return await Promise.resolve(element)
   }
 
+  const postComment = (event, isReply = false) => {
+    const textareaElement = event.currentTarget.parentNode.querySelector('textarea')
+    if (textareaElement.value) {
+      textareaElement.parentNode.classList.add('hidden')
+      submitComment(textareaElement, isReply)
+    }
+  }
+
   const commentAction = (event, action) => {
     const commentElement = event.currentTarget.parentNode.parentNode.parentNode
 
     switch (action) {
       case 'reply':
-        event.currentTarget.parentNode.parentNode.parentNode.parentNode.querySelector('.comment-reply-wrapper').classList.toggle('hidden');
+        commentElement.parentNode.querySelector('.comment-reply-wrapper').classList.toggle('hidden');
         break;
 
       case 'update':
         updateContentEl(commentElement)
           .then(element => {
-            console.log('element', element)
             const textareaEl = element.querySelector('.update-comment').querySelector('textarea')
-            console.log(textareaEl)
             if (textareaEl){ autoheight(textareaEl) }
           })
         break;
@@ -55,10 +61,6 @@ const Comment = ({ currentUser, comment }) => {
       default:
         break;
     }
-  }
-
-  const submitComment = (textareaElement) => {
-    console.log('comment submitted', textareaElement.value)
   }
 
   const userReplyingTo = replyingTo ? `@${replyingTo}` : null
@@ -86,7 +88,7 @@ const Comment = ({ currentUser, comment }) => {
                       text='UPDATE'
                       content={content}
                       customClass="update-comment"
-                      submitComment={textareaElement => submitComment(textareaElement)}
+            submitComment={event => postComment(event, false)}
           />
           :
           <p className="comment-content"><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
@@ -101,7 +103,7 @@ const Comment = ({ currentUser, comment }) => {
       <NewComment currentUser={currentUser}
                   text='REPLY'
                   customClass="hidden"
-                  submitComment={(textareaElement) => submitComment(textareaElement)}
+                  submitComment={event => postComment(event, true)}
       />
     </>
   )

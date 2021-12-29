@@ -22,6 +22,28 @@ const CommentsList = ({data}) => {
     textareaElement.value = ''
   }
 
+  const replyComment = (textareaElement, username, id, isReply = false) => {
+    const newComment = {
+      // "id": 1,
+      "content": textareaElement.value,
+      "createdAt": '1 minute ago',
+      "score": 0,
+      "replyingTo": username,
+      "user": currentUser
+    }
+    if (isReply){
+      comments.forEach((comment, index) => {
+        if (comment.id === id) {
+          const newComments = [...comments]
+          newComments[index].replies = [...comment.replies, newComment]
+          updateComments(newComments)
+        }
+      })
+    } else {
+      console.log('updating comment', newComment)
+    }
+  }
+
   return(
     <>
       <ul className='comment-list-group'>
@@ -31,6 +53,7 @@ const CommentsList = ({data}) => {
               <Comment
                 currentUser={currentUser}
                 comment={comment}
+                submitComment={(textareaElement, isReply) => replyComment(textareaElement, comment.user.username, comment.id, isReply)}
               />
               { /* if a comment has replies then render those replies as
               comments in another list inside the same <li>*/ }
@@ -42,6 +65,7 @@ const CommentsList = ({data}) => {
                       <Comment
                         currentUser={currentUser}
                         comment={reply}
+                        submitComment={(textareaElement, isReply) => replyComment(textareaElement, reply.user.username, comment.id, isReply )}
                       />
                     </li>
                   )

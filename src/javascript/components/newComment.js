@@ -9,7 +9,7 @@ const NewComment = ({ currentUser, text = 'SEND', content = '', customClass = ''
         <img src={process.env.PUBLIC_URL + currentUser.image.png} alt="user profile" className="avatar"/>
       }
       <textarea placeholder="Add a comment..." className="comment-reply-input" defaultValue={content}></textarea>
-      <div className="btn-submit" onClick={event => submitComment(event.currentTarget.parentNode.querySelector('textarea'))}>{text}</div>
+      <div className="btn-submit" onClick={event => submitComment(event)}>{text}</div>
     </div>
   )
 }

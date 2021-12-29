@@ -1,11 +1,14 @@
 import React from "react";
 
-const NewComment = ({ currentUser, text = 'SEND', isHidden = true}) => {
-  const customClass = isHidden ? "comment-reply-wrapper hidden" : "comment-reply-wrapper"
+const NewComment = ({ currentUser, text = 'SEND', content = '', customClass = ''}) => {
   return(
-    <div className={customClass}>
-      <img src={process.env.PUBLIC_URL + currentUser.image.png} alt="user profile" className="avatar"/>
-      <textarea placeholder="Add a comment..." className="comment-reply-input"></textarea>
+    <div className={('comment-reply-wrapper ' + customClass)}>
+      { text.toUpperCase() === 'UPDATE' ?
+        null
+      :
+        <img src={process.env.PUBLIC_URL + currentUser.image.png} alt="user profile" className="avatar"/>
+      }
+      <textarea placeholder="Add a comment..." className="comment-reply-input" defaultValue={content}></textarea>
       <div className="btn-submit">{text}</div>
     </div>
   )

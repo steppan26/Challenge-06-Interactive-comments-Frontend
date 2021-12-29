@@ -2,8 +2,13 @@ import React from "react";
 import NewComment from "./newComment";
 import VotesCounter from './votesCounter'
 
+const autoheight = (element) => {
+  element.style.height = (element.scrollHeight - 26) + "px";
+}
+
 const Comment = ({ currentUser, comment }) => {
-  let updating = false
+  const [updating, setUpdating] = React.useState(false)
+
   const { content, score, user, createdAt, replyingTo } = comment
 
   const [commentScore, updateCommentScore] = React.useState(score)
@@ -18,6 +23,11 @@ const Comment = ({ currentUser, comment }) => {
     }
   }
 
+  async function updateContentEl(element) {
+    setUpdating(!updating)
+    return await Promise.resolve(element)
+  }
+
   const commentAction = (event, action) => {
     const commentElement = event.currentTarget.parentNode.parentNode.parentNode
 
@@ -27,8 +37,13 @@ const Comment = ({ currentUser, comment }) => {
         break;
 
       case 'update':
-        const newEl = commentElement.querySelector('.comment-content')
-        console.log('updating', newEl)
+        updateContentEl(commentElement)
+          .then(element => {
+            console.log('element', element)
+            const textareaEl = element.querySelector('.update-comment').querySelector('textarea')
+            console.log(textareaEl)
+            if (textareaEl){ autoheight(textareaEl) }
+          })
         break;
 
       case 'delete':
@@ -63,17 +78,20 @@ const Comment = ({ currentUser, comment }) => {
           <h5 className='date-created'>{createdAt}</h5>
         </div>
         { updating ?
-          <div>Updating</div>
-        :
+          // <textarea ref={textareaRef} placeholder="Add a comment..." className="comment-reply-input update-comment">{content}</textarea>
+          <NewComment currentUser={currentUser} text='UPDATE' content={content} customClass="update-comment" />
+          :
           <p className="comment-content"><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>
         }
-        <VotesCounter
-          votes={commentScore}
-          updateCounter={event => updateCounter(event)}
-        />
-        <div className="comment-actions">{postUserActions}</div>
+        <div className="comment-footer">
+          <VotesCounter
+            votes={commentScore}
+            updateCounter={event => updateCounter(event)}
+          />
+          <div className="comment-actions">{postUserActions}</div>
+        </div>
       </div>
-      <NewComment currentUser={currentUser} text='REPLY' />
+      <NewComment currentUser={currentUser} text='REPLY' customClass="hidden" />
     </>
   )
 }

@@ -38,7 +38,7 @@ const CommentsList = ({data}) => {
           )
         })}
       </ul>
-      <NewComment currentUser={currentUser} isHidden={false}/>
+      <NewComment currentUser={currentUser}/>
     </>
   )
 }

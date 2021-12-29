@@ -1,11 +1,12 @@
 import React from "react";
+import NewComment from "./newComment";
 import VotesCounter from './votesCounter'
 
 const Comment = ({ currentUser, comment, commentAction }) => {
   const { content, score, user, createdAt, replyingTo } = comment
 
   const [commentScore, updateCommentScore] = React.useState(score)
-  const userReplyingTo = replyingTo ? `@${replyingTo}` : null
+
   const updateCounter = (event) => {
     if(event.currentTarget.innerText === '+'){
       updateCommentScore(commentScore + 1)
@@ -15,6 +16,7 @@ const Comment = ({ currentUser, comment, commentAction }) => {
       }
     }
   }
+  const userReplyingTo = replyingTo ? `@${replyingTo}` : null
   // renders the 'you' identifier if post belongs to current user
   const userIdentifier = (user.username === currentUser.username ? <span className='user-identifier'>you</span> : null)
   // renders the 'delete' and 'edit' buttons if post belongs to current user
@@ -30,7 +32,7 @@ const Comment = ({ currentUser, comment, commentAction }) => {
     <>
       <div className='comment-list-item'>
         <div className="comment-header">
-          <img src={process.env.PUBLIC_URL + user.image.png} alt="user profile" />
+          <img src={process.env.PUBLIC_URL + user.image.png} alt="user profile" className="avatar" />
           <h4 className='comment-username'>{user.username} {userIdentifier}</h4>
           <h5 className='date-created'>{createdAt}</h5>
         </div>
@@ -41,6 +43,7 @@ const Comment = ({ currentUser, comment, commentAction }) => {
         />
         <div className="comment-actions">{postUserActions}</div>
       </div>
+      <NewComment currentUser={currentUser} text='REPLY' />
     </>
   )
 }

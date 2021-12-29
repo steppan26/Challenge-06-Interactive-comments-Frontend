@@ -7,11 +7,17 @@ const CommentsList = ({data}) => {
   const [ comments, updateComments] = React.useState(data.comments)
   const commentElRef = React.useRef();
   const replyElRef = React.useRef();
+  const [nextId, setNextId] = React.useState(5)
 
-  const submitComment = (textareaElement) => {
-    console.log('new comment', textareaElement.value)
+  const getCommentId = () => {
+    setNextId(nextId => ++nextId)
+    return nextId
+  }
+
+  const submitComment = (event) => {
+    const textareaElement = event.currentTarget.parentNode.querySelector('textarea')
     const newComment = {
-      // "id": 1,
+      "id": getCommentId(),
       "content": textareaElement.value,
       "createdAt": '1 minute ago',
       "score": 0,
@@ -22,26 +28,43 @@ const CommentsList = ({data}) => {
     textareaElement.value = ''
   }
 
-  const replyComment = (textareaElement, username, id, isReply = false) => {
-    const newComment = {
-      // "id": 1,
-      "content": textareaElement.value,
-      "createdAt": '1 minute ago',
-      "score": 0,
-      "replyingTo": username,
-      "user": currentUser
-    }
+  const replyComment = (attributes = {}) => {
+    const { isReply, textareaElement, username, originalCommentId, commentId} = attributes
     if (isReply){
+      const newComment = {
+        "id": getCommentId(),
+        "content": textareaElement.value,
+        "createdAt": '1 minute ago',
+        "score": 0,
+        "replyingTo": username,
+        "user": currentUser
+      }
       comments.forEach((comment, index) => {
-        if (comment.id === id) {
+        if (comment.id === originalCommentId) {
           const newComments = [...comments]
           newComments[index].replies = [...comment.replies, newComment]
           updateComments(newComments)
         }
       })
     } else {
-      console.log('updating comment', newComment)
+      const newComments = comments.map(comment => {
+        if (comment.id === commentId) {
+          comment.content = textareaElement.value
+        } else {
+          comment.replies.forEach(reply => {
+            if (reply.id === commentId) {
+              reply.content = textareaElement.value
+            }
+          })
+        }
+        return comment
+      })
+      updateComments(newComments)
     }
+  }
+
+  const destroyComment = (commentId) => {
+    console.log(commentId)
   }
 
   return(
@@ -53,7 +76,16 @@ const CommentsList = ({data}) => {
               <Comment
                 currentUser={currentUser}
                 comment={comment}
-                submitComment={(textareaElement, isReply) => replyComment(textareaElement, comment.user.username, comment.id, isReply)}
+                submitComment={
+                  (textareaElement, isReply) => replyComment(
+                    {
+                      username: comment.user.username,
+                      originalCommentId: comment.id,
+                      commentId: comment.id,
+                      textareaElement,
+                      isReply
+                    }
+                  )}                destroyComment={() => destroyComment(comment.id)}
               />
               { /* if a comment has replies then render those replies as
               comments in another list inside the same <li>*/ }
@@ -65,7 +97,17 @@ const CommentsList = ({data}) => {
                       <Comment
                         currentUser={currentUser}
                         comment={reply}
-                        submitComment={(textareaElement, isReply) => replyComment(textareaElement, reply.user.username, comment.id, isReply )}
+                        submitComment={
+                          (textareaElement, isReply) => replyComment(
+                            {
+                              username: reply.user.username,
+                              originalCommentId: comment.id,
+                              commentId: reply.id,
+                              textareaElement,
+                              isReply
+                            }
+                          )}
+                        destroyComment={() => destroyComment(reply.id)}
                       />
                     </li>
                   )
@@ -77,8 +119,9 @@ const CommentsList = ({data}) => {
           )
         })}
       </ul>
-      <NewComment currentUser={currentUser}
-        submitComment={(textareaElement) => submitComment(textareaElement)}
+      <NewComment
+        currentUser={currentUser}
+        submitComment={(event) => submitComment(event)}
       />
     </>
   )

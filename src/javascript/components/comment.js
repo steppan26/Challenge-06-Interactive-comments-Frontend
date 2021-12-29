@@ -9,7 +9,7 @@ const autoheight = (element) => {
 const Comment = ({ currentUser, comment, submitComment }) => {
   const [updating, setUpdating] = React.useState(false)
 
-  const { id, content, score, user, createdAt, replyingTo } = comment
+  const { content, score, user, createdAt, replyingTo } = comment
 
   const [commentScore, updateCommentScore] = React.useState(score)
 
@@ -31,8 +31,13 @@ const Comment = ({ currentUser, comment, submitComment }) => {
   const postComment = (event, isReply = false) => {
     const textareaElement = event.currentTarget.parentNode.querySelector('textarea')
     if (textareaElement.value) {
-      textareaElement.parentNode.classList.add('hidden')
+      if (isReply){
+        textareaElement.parentNode.classList.add('hidden')
+      } else {
+        updateContentEl()
+      }
       submitComment(textareaElement, isReply)
+      textareaElement.value = ''
     }
   }
 
@@ -53,7 +58,6 @@ const Comment = ({ currentUser, comment, submitComment }) => {
         break;
 
       case 'delete':
-        console.log('deleting')
         window.alert('Comment has been deleted')
         commentElement.remove()
         break;
@@ -88,7 +92,7 @@ const Comment = ({ currentUser, comment, submitComment }) => {
                       text='UPDATE'
                       content={content}
                       customClass="update-comment"
-            submitComment={event => postComment(event, false)}
+                      submitComment={event => postComment(event)}
           />
           :
           <p className="comment-content"><span className='user-replying-to'>{userReplyingTo}</span> {content}</p>

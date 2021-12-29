@@ -95,7 +95,6 @@ const CommentsList = ({data}) => {
       })
       updateComments(newComments)
     }
-    console.log(comments)
   }
 
   const destroyComment = (commentId) => {

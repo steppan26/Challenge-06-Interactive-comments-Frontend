@@ -65,7 +65,7 @@ const CommentsList = ({data}) => {
     }
   }
 
-  const updateScore = (score = null, commentEl = null, commentId = 0) => {
+  const updateScore = (score = null, commentId = 0) => {
     if (score) {
         const newComments = comments.map(comment => {
           if (comment.id === commentId) {
@@ -98,7 +98,17 @@ const CommentsList = ({data}) => {
   }
 
   const destroyComment = (commentId) => {
-    console.log(commentId)
+    const newComments = []
+    comments.forEach((comment) => {
+      if (comment.id === commentId) { return }
+      else {
+        comment.replies = comment.replies.filter(reply => {
+          return reply.id === commentId ? false : true
+        })
+      }
+      newComments.push(comment)
+    })
+    updateComments(newComments)
   }
 
   return(
@@ -120,7 +130,7 @@ const CommentsList = ({data}) => {
                       isReply
                     }
                   )}
-                  updateScore={(score, comment) => updateScore(score, comment, comment.id)}
+                  updateScore={(score, comment) => updateScore(score, comment.id)}
                 destroyComment={() => destroyComment(comment.id)}
               />
               { /* if a comment has replies then render those replies as
@@ -143,7 +153,7 @@ const CommentsList = ({data}) => {
                               isReply
                             }
                           )}
-                          updateScore={(score, comment) => updateScore(score, comment, reply.id)}
+                          updateScore={(score, comment) => updateScore(score, reply.id)}
                         destroyComment={() => destroyComment(reply.id)}
                       />
                     </li>

@@ -6,7 +6,7 @@ const autoheight = (element) => {
   element.style.height = (element.scrollHeight - 26) + "px";
 }
 
-const Comment = ({ currentUser, comment, submitComment, updateScore }) => {
+const Comment = ({ currentUser, comment, submitComment, updateScore, destroyComment }) => {
   const [updating, setUpdating] = React.useState(false)
 
   const { content, score, user, createdAt, replyingTo } = comment
@@ -62,6 +62,8 @@ const Comment = ({ currentUser, comment, submitComment, updateScore }) => {
       case 'update':
         updateContentEl(commentElement)
           .then(element => {
+            if (!element.querySelector('.update-comment')) { return }
+
             const textareaEl = element.querySelector('.update-comment').querySelector('textarea')
             if (textareaEl){ autoheight(textareaEl) }
           })
@@ -70,6 +72,7 @@ const Comment = ({ currentUser, comment, submitComment, updateScore }) => {
       case 'delete':
         window.alert('Comment has been deleted')
         commentElement.remove()
+        destroyComment()
         break;
 
       default:

@@ -1,6 +1,7 @@
 import React from "react";
 import NewComment from "./newComment";
 import VotesCounter from './votesCounter'
+import ModalDestroy from "./modalDestroy";
 
 const autoheight = (element) => {
   element.style.height = (element.scrollHeight - 26) + "px";
@@ -8,6 +9,7 @@ const autoheight = (element) => {
 
 const Comment = ({ currentUser, comment, submitComment, updateScore, destroyComment }) => {
   const [updating, setUpdating] = React.useState(false)
+  const [modalVisible, setModalVisible] = React.useState(false)
 
   const { content, score, user, createdAt, replyingTo } = comment
 
@@ -70,13 +72,20 @@ const Comment = ({ currentUser, comment, submitComment, updateScore, destroyComm
         break;
 
       case 'delete':
-        window.alert('Comment has been deleted')
-        commentElement.remove()
-        destroyComment()
+        setModalVisible(true)
+        document.querySelector('body').classList.add('modal-open')
         break;
 
       default:
         break;
+    }
+  }
+
+  const modalAction = (action) => {
+    document.querySelector('body').classList.remove('modal-open')
+    setModalVisible(false)
+    if (action === 'delete'){
+      destroyComment()
     }
   }
 
@@ -94,6 +103,7 @@ const Comment = ({ currentUser, comment, submitComment, updateScore, destroyComm
   )
   return(
     <>
+      { modalVisible ? <ModalDestroy action={action => modalAction(action)} /> : null }
       <div className='comment-list-item'>
         <div className="comment-header">
           <img src={process.env.PUBLIC_URL + user.image.png} alt="user profile" className="avatar" />

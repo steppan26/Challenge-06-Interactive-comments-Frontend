@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Challenge-06-Interactive-comments-Frontend/static/css/main.85a52c71.css",
+    "main.js": "/Challenge-06-Interactive-comments-Frontend/static/js/main.af2fc1a8.js",
+    "static/js/787.5504efc1.chunk.js": "/Challenge-06-Interactive-comments-Frontend/static/js/787.5504efc1.chunk.js",
+    "index.html": "/Challenge-06-Interactive-comments-Frontend/index.html",
+    "main.85a52c71.css.map": "/Challenge-06-Interactive-comments-Frontend/static/css/main.85a52c71.css.map",
+    "main.af2fc1a8.js.map": "/Challenge-06-Interactive-comments-Frontend/static/js/main.af2fc1a8.js.map",
+    "787.5504efc1.chunk.js.map": "/Challenge-06-Interactive-comments-Frontend/static/js/787.5504efc1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.85a52c71.css",
+    "static/js/main.af2fc1a8.js"
+  ]
+}

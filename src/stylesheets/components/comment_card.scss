@@ -138,7 +138,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   &::placeholder { opacity: 0.4; }
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 600px){
   .App {
     display: flex;
     flex-flow: column nowrap;

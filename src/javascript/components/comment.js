@@ -106,7 +106,7 @@ const Comment = ({ currentUser, comment, submitComment, updateScore, destroyComm
       { modalVisible ? <ModalDestroy action={action => modalAction(action)} /> : null }
       <div className='comment-list-item'>
         <div className="comment-header">
-          <img src={process.env.PUBLIC_URL + user.image.png} alt="user profile" className="avatar" />
+          <img src={`../${user.image.png}`} alt="user profile" className="avatar" />
           <h4 className='comment-username'>{user.username} {userIdentifier}</h4>
           <h5 className='date-created'>{createdAt}</h5>
         </div>

@@ -52,7 +52,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   justify-content: space-between;
   align-items: center;
   border-radius: 0.6rem;
-  width: 73px;
+  width: 100px;
   padding: 0.6rem;
   color: var(--clr-Moderate-blue);
   background-color: var(--clr-Very-light-gray);
@@ -136,4 +136,47 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   width: calc(100% - 2.2rem);
   margin-bottom: 1rem;
   &::placeholder { opacity: 0.4; }
+}
+
+@media screen and (min-width: 768px){
+  .App {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .comment-list-item {
+    padding-left: 5rem;
+  }
+
+  .votes-wrapper {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    width: fit-content;
+    width: 50px;
+    & div { margin: 0.5rem 0;}
+  }
+
+  .comment-actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .replies { padding-left: 2.5rem; margin-left: 2.5rem;}
+
+  .comment-reply-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    & textarea { order: initial; width: 80%;}
+  }
 }

@@ -5,7 +5,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
 
 .comment-list-item {
   position: relative;
-  background-color: var(--clr-white);
+  background-color: var(--clr-White);
   margin: 1rem 0;
   border-radius: 0.4rem;
   box-shadow: 0 0 20px rgba(10, 10, 10, 0.1);
@@ -96,7 +96,7 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: var(--clr-white);
+  background-color: var(--clr-White);
   padding: 1.1rem;
   margin: 1rem 0;
   border-radius: 0.4rem;
@@ -151,6 +151,8 @@ body { font-family: 'Rubik', sans-serif; padding: 0 1rem; }
   .comment-list-item {
     padding-left: 5rem;
   }
+
+  .comment-header .date-created { font-size: 0.9rem; font-weight: 500; opacity: 0.3;}
 
   .votes-wrapper {
     position: absolute;
